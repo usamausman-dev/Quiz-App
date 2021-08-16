@@ -1,5 +1,85 @@
 var allQuestion = [];
 
+
+let googleSignin = () => {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+            var credential = result.credential;
+            var token = credential.accessToken;
+            var user = result.user;
+
+            var { displayName, email, phoneNumber, photoURL } = user;
+            setUser(displayName, email, phoneNumber, photoURL);
+
+        }).catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            var email = error.email;
+            var credential = error.credential;
+            alert(errorMessage);
+        });
+}
+
+
+function signin() {
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            // Signed in
+            var user = userCredential.user;
+
+            var { displayName, email, phoneNumber, photoURL } = user;
+            setUser(displayName, email, phoneNumber, photoURL);
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+        });
+
+    //Setting the fields to be empty
+    document.getElementById('email').value = '';
+    document.getElementById('password').value = '';
+}
+
+function signup() {
+    var email = document.getElementById('uemail').value;
+    var password = document.getElementById('upass').value;
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            // Signed in 
+            var user = userCredential.user;
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+        });
+
+    //Setting the fields to be empty    
+    document.getElementById('uemail').value = '';
+    document.getElementById('upass').value = '';
+}
+
+function setUser(userName, email, phone, photo) {
+    var currentUser = {
+        userName, email, phone, photo
+    }
+    console.log(currentUser);
+
+    localStorage.setItem('currentUser',JSON.stringify(currentUser));
+    window.location.href = "index.html";
+}
+
+
+
+
+
+
+
+
+
 function ListenData() {
     var myref = firebase.database().ref('quiz');
     myref.on('value', (snapshot) => {

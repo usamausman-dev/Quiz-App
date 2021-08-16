@@ -31,11 +31,19 @@
 
                 <li class="nav-item dropdown">
                     <a type="button" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                        UserName
+                        aria-expanded="false" id="userName">
+                        <script>
+                            var users = localStorage.getItem('currentUser');
+                            // console.log(users);
+
+                            if (users !== null) {
+                                var localUser = JSON.parse(users);
+                                document.getElementById('userName').innerHTML = localUser.email;
+                            }
+                        </script>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right mt-3">
-                        
+
                         <button class="dropdown-item" type="button">Log Out</button>
                     </div>
                 </li>
@@ -64,6 +72,7 @@
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
 
 <script src="../firebase.js"></script>
 <script src="app.js"></script>

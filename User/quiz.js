@@ -1,10 +1,9 @@
 function RunApp() {
     getData();
-    var fiveMinutes = 60 * 0.1,
+    var fiveMinutes = 60 * 5,
         display = document.querySelector('#time');
     startTimer(fiveMinutes, display);
 }
-
 
 var questionsArray = [];
 
@@ -95,6 +94,19 @@ function setResult() {
         alert(`Total Question = ${questionsArray.length} , and you scored : ${percentage}% marks`);
         window.location.href = "index.html";
     }
+
+    var quizName = new URLSearchParams(window.location.search).get('data');
+    var student = JSON.parse(localStorage.getItem('currentUser'));
+    var result ={
+        score : score,
+        percentage : percentage,
+        quizName : quizName,
+        studentEmail : student.email
+    }
+
+    firebase.database().ref('results').push(result);
+
+    // console.log(result);
 }
 
 

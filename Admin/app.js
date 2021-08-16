@@ -151,7 +151,7 @@ function ListenData() {
             // console.log(total_questions);
 
 
-            var genHTML = `<div class="card col-md-4 m-3">
+            var genHTML = `<div class="card col-md-3 m-3">
                                 <div class="card-body">
                                 <h5 class="card-title">Quiz Name : </h5>
                                 <h6 class="card-subtitle mb-2 text-muted">${childKey}</h6>
@@ -175,4 +175,53 @@ function ListenData() {
     
 }
 
+
+
+function ListenResults() {
+    var myref = firebase.database().ref('results');
+    myref.on('value', (snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+            var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+
+            // var objkey = Object.keys(childData)
+            // var total_questions = objkey.length;
+            // console.log(total_questions);
+
+
+            // var genHTML = `<div class="card col-md-3 m-3">
+            //                     <div class="card-body">
+            //                     <h5 class="card-title">Quiz Name : </h5>
+            //                     <h6 class="card-subtitle mb-2 text-muted">${childKey}</h6>
+            //                     <p class="card-text"> Total Questions: ${total_questions}</p>
+                                
+            //                     </div>
+            //                 </div>`;
+
+            //                 document.getElementById('main').innerHTML += genHTML;
+
+            var res = `<tr>
+                            <th scope="row">${childKey}</th>
+                            <td>${childData.studentEmail}</td>
+                            <td>${childData.quizName}</td>
+                            <td>${childData.score}</td>
+                            <td>${childData.percentage}</td>
+                        </tr>`
+
+            console.log(childKey);
+            console.log(childData);
+
+            document.getElementById('results').innerHTML += res;
+            
+           
+
+            // console.log(childData[hello].options)
+
+        });
+    });
+
+    
+}
+
 ListenData();
+ListenResults();
